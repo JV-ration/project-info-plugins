@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.jv-ration.build.plugins</groupId>
         <artifactId>project-info-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
 
     <groupId>com.jv-ration.build</groupId>
     <artifactId>project-info-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <name>Project Information API</name>
     <description>Set of classes used to unify plugins' output</description>

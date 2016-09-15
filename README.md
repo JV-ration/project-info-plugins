@@ -8,7 +8,7 @@ Currently only Maven plugin is implemented. After building the plugins locally a
 local maven repository, execute command below on any maven project you have
  
 ```
-mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.1-SNAPSHOT:info -DoutputFile=info.json
+mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.3-SNAPSHOT:info -DoutputFile=info.json
 ```
 
 The generated JSON will contains project information and can be loaded using classes 
