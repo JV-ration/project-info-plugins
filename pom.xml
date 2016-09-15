@@ -5,7 +5,7 @@
 
     <groupId>com.jv-ration.build.plugins</groupId>
     <artifactId>project-info-plugin</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Project Information Plugins</name>
@@ -65,5 +65,20 @@
         <module>project-info-maven-plugin</module>
         <module>project-info-gradle-plugin</module>
     </modules>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <configuration>
+                        <useReleaseProfile>false</useReleaseProfile>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

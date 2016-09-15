@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.jv-ration.build.plugins</groupId>
         <artifactId>project-info-plugin</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>0.0.4-SNAPSHOT</version>
     </parent>
 
     <groupId>com.jv-ration.gradle.plugins</groupId>
     <artifactId>project-info-gradle-plugin</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
 
     <name>Project Information Gradle Plugin</name>
     <description>This is a placeholder for Gradle version of the plugin</description>
