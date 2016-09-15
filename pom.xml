@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jv-ration.build.plugins</groupId>
+    <artifactId>project-info-plugin</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Project Information Plugins</name>
+    <description>Provides unified information about Maven and Gradle projects</description>
+
+    <modules>
+        <module>project-info-api</module>
+        <module>project-info-maven-plugin</module>
+        <module>project-info-gradle-plugin</module>
+    </modules>
+
+</project>
