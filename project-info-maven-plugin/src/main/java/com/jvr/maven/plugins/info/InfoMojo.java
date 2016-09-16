@@ -2,6 +2,7 @@ package com.jvr.maven.plugins.info;
 
 import com.jvr.build.info.api.Project;
 import com.jvr.build.info.api.ProjectJson;
+import com.jvr.build.info.api.ProjectRoot;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
@@ -20,7 +21,6 @@ import org.apache.maven.shared.dependency.graph.DependencyGraphBuilder;
 import org.apache.maven.shared.dependency.graph.DependencyGraphBuilderException;
 import org.apache.maven.shared.dependency.graph.DependencyNode;
 import org.apache.maven.shared.dependency.graph.traversal.BuildingDependencyNodeVisitor;
-import org.apache.maven.shared.dependency.graph.traversal.DependencyNodeVisitor;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,13 +129,14 @@ public class InfoMojo extends AbstractMojo {
 
         ProjectInfoNodeVisitor visitor = new ProjectInfoNodeVisitor();
         rootNode.accept(new BuildingDependencyNodeVisitor(visitor));
-        Project rootProject = visitor.getRoot();
+        ProjectRoot rootProject = visitor.getRoot();
 
         if (rootProject != null) {
             rootProject.setModules(project.getModules());
             if (project.getParent() != null) {
                 Project parent = ProjectInfoNodeVisitor.toProject(project.getParent().getArtifact());
                 rootProject.setParent(parent);
+                rootProject.setParentFile(project.getParentFile());
             }
 
             if ("json".equals(outputType)) {

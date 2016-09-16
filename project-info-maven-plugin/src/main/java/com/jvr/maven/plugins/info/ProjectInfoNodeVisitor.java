@@ -1,6 +1,7 @@
 package com.jvr.maven.plugins.info;
 
 import com.jvr.build.info.api.Project;
+import com.jvr.build.info.api.ProjectRoot;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.shared.dependency.graph.DependencyNode;
 import org.apache.maven.shared.dependency.graph.traversal.DependencyNodeVisitor;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 class ProjectInfoNodeVisitor implements DependencyNodeVisitor {
 
-    private Project root = null;
+    private ProjectRoot root = null;
     private HashMap<String, Project> projects = new HashMap<String, Project>();
 
     /**
@@ -25,11 +26,11 @@ class ProjectInfoNodeVisitor implements DependencyNodeVisitor {
         Project project = toProject(node);
 
         if (node.getParent() == null || node.getParent() == node) {
-            root = project;
+            root = new ProjectRoot(project);
+            project = root;
         }
 
         List<DependencyNode> children = node.getChildren();
-
         for (DependencyNode child : children) {
             Project dependency = toProject(child);
             project.addDependency(child.getArtifact().getScope(), dependency);
@@ -76,7 +77,7 @@ class ProjectInfoNodeVisitor implements DependencyNodeVisitor {
         return candidate;
     }
 
-    Project getRoot() {
+    ProjectRoot getRoot() {
         return root;
     }
 }

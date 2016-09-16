@@ -15,13 +15,9 @@ public class Project {
     private String version = null;
     private String type = null;
 
-    private Project parent = null;
-
     // exclude from JSON serialization
     transient private HashMap<String, Scope> dependenciesMap = null;
-
     private List<Scope> dependencies = null;
-    private List<String> modules = null;
 
     public String getGroupId() {
         return groupId;
@@ -53,14 +49,6 @@ public class Project {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Project getParent() {
-        return parent;
-    }
-
-    public void setParent(Project parent) {
-        this.parent = parent;
     }
 
     /**
@@ -97,20 +85,6 @@ public class Project {
             dependenciesMap.put(scope, newScope);
             dependencies.add(newScope);
         }
-    }
-
-    public List<String> getModules() {
-        return modules;
-    }
-    public void setModules(List<String> modules) {
-        this.modules = modules;
-    }
-
-    public void addModule(String module) {
-        if (modules == null) {
-            modules = new ArrayList<String>();
-        }
-        modules.add(module);
     }
 
     @Override

@@ -12,13 +12,18 @@ public class ProjectJson {
         // disable invocation of constructor
     }
 
-    public static String toString(Project project, boolean pretty) {
+    public static String toString(ProjectRoot project, boolean pretty) {
         GsonBuilder builder = new GsonBuilder();
         if (pretty) {
             builder.setPrettyPrinting();
         }
         Gson gson = builder.create();
         return gson.toJson(project);
+    }
+
+    public static ProjectRoot fromJson(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, ProjectRoot.class);
     }
 
 }

@@ -11,10 +11,8 @@ public class ProjectTest {
 
         Project project = new Project();
         project.setArtifactId("project");
-
         Project dependency = new Project();
         dependency.setArtifactId("dependency");
-
         project.addDependency("compile", dependency);
 
         assertEquals("dependency is not added", 1, project.getDependencies().size());
