@@ -3,6 +3,8 @@
 
 Plugins for build tools like Maven and Gradle to generate unified information about the projects
 
+![project-info-plugins.jpg](https://s10.postimg.org/4ouor9awp/project_info_plugins.jpg)
+
 ## Using from command line
 
 Currently only Maven plugin is implemented. After building the plugins locally and installing them in 
