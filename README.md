@@ -1,6 +1,5 @@
 # project-info-plugins 
 [![Build Status](https://travis-ci.org/JV-ration/project-info-plugins.svg?branch=master)](https://travis-ci.org/JV-ration/project-info-plugins) 
-[![Code Climate](https://codeclimate.com/github/JV-ration/project-info-plugins/badges/gpa.svg)](https://codeclimate.com/github/JV-ration/project-info-plugins)
 
 Plugins for build tools like Maven and Gradle to generate unified information about the projects
 
