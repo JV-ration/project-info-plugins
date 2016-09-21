@@ -132,11 +132,14 @@ public class InfoMojo extends AbstractMojo {
         ProjectRoot rootProject = visitor.getRoot();
 
         if (rootProject != null) {
+
             rootProject.setModules(project.getModules());
+            rootProject.setName(project.getName());
+            rootProject.setDescription(project.getDescription());
+
             if (project.getParent() != null) {
                 Project parent = ProjectInfoNodeVisitor.toProject(project.getParent().getArtifact());
                 rootProject.setParent(parent);
-                rootProject.setParentFile(project.getParentFile());
             }
 
             if ("json".equals(outputType)) {

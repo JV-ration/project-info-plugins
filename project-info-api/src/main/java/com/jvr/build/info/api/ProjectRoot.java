@@ -1,6 +1,5 @@
 package com.jvr.build.info.api;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +9,9 @@ import java.util.List;
 public class ProjectRoot extends Project {
 
     private Project parent = null;
-    private File parentFile = null;
     private List<String> modules = null;
+    private String name;
+    private String description;
 
     public ProjectRoot(Project project) {
         setGroupId(project.getGroupId());
@@ -31,14 +31,6 @@ public class ProjectRoot extends Project {
         this.parent = parent;
     }
 
-    public File getParentFile() {
-        return parentFile;
-    }
-
-    public void setParentFile(File parentFile) {
-        this.parentFile = parentFile;
-    }
-
     public List<String> getModules() {
         return modules;
     }
@@ -54,4 +46,19 @@ public class ProjectRoot extends Project {
         modules.add(module);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
