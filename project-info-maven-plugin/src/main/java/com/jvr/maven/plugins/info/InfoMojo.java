@@ -1,5 +1,6 @@
 package com.jvr.maven.plugins.info;
 
+import com.jvr.build.info.api.Module;
 import com.jvr.build.info.api.Project;
 import com.jvr.build.info.api.ProjectJson;
 import com.jvr.build.info.api.ProjectRoot;
@@ -25,6 +26,7 @@ import org.apache.maven.shared.dependency.graph.traversal.BuildingDependencyNode
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.List;
 
 @Mojo(name = "info", aggregator = true, requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class InfoMojo extends AbstractMojo {
@@ -91,17 +93,12 @@ public class InfoMojo extends AbstractMojo {
         try {
 
             ArtifactFilter artifactFilter = (scope != null) ? new ScopeArtifactFilter(scope) : null;
+            ProjectRoot dependencyTree = serializeDependencyTree(project, artifactFilter);
 
-            ProjectBuildingRequest buildingRequest =
-                    new DefaultProjectBuildingRequest(session.getProjectBuildingRequest());
-
-            buildingRequest.setProject(project);
-
-            // non-verbose mode use dependency graph component, which gives consistent results with Maven version
-            // running
-            DependencyNode rootNode = dependencyGraphBuilder.buildDependencyGraph(buildingRequest, artifactFilter);
-
-            String dependencyTreeString = serializeDependencyTree(rootNode);
+            String dependencyTreeString = "";
+            if ("json".equals(outputType)) {
+                dependencyTreeString = ProjectJson.toString(dependencyTree, pretty);
+            }
 
             if (outputFile != null) {
                 FileUtils.writeStringToFile(outputFile, dependencyTreeString, Charset.defaultCharset());
@@ -119,13 +116,17 @@ public class InfoMojo extends AbstractMojo {
 
     /**
      * Serializes the specified dependency tree to a string.
-     *
-     * @param rootNode the dependency tree root node to serialize
-     * @return the serialized dependency tree
+     * @return object with dependency tree
      */
-    private String serializeDependencyTree(DependencyNode rootNode) {
+    private ProjectRoot serializeDependencyTree(MavenProject project, ArtifactFilter artifactFilter) throws DependencyGraphBuilderException {
 
-        String result = "";
+        ProjectBuildingRequest buildingRequest =
+                new DefaultProjectBuildingRequest(session.getProjectBuildingRequest());
+
+        buildingRequest.setProject(project);
+
+        // non-verbose mode use dependency graph component, which gives consistent results with Maven version running
+        DependencyNode rootNode = dependencyGraphBuilder.buildDependencyGraph(buildingRequest, artifactFilter);
 
         ProjectInfoNodeVisitor visitor = new ProjectInfoNodeVisitor();
         rootNode.accept(new BuildingDependencyNodeVisitor(visitor));
@@ -133,21 +134,52 @@ public class InfoMojo extends AbstractMojo {
 
         if (rootProject != null) {
 
-            rootProject.setModules(project.getModules());
             rootProject.setName(project.getName());
             rootProject.setDescription(project.getDescription());
-
             if (project.getParent() != null) {
                 Project parent = ProjectInfoNodeVisitor.toProject(project.getParent().getArtifact());
                 rootProject.setParent(parent);
             }
 
-            if ("json".equals(outputType)) {
-                result = ProjectJson.toString(rootProject, pretty);
+            for (String moduleFolder : project.getModules()) {
+                MavenProject moduleProject = findModuleProject(project, moduleFolder);
+                if (moduleProject != null) {
+                    ProjectRoot module = serializeDependencyTree(moduleProject, artifactFilter);
+                    rootProject.addModule(new Module(moduleFolder, module));
+                }
+            }
+
+        }
+
+        return rootProject;
+
+    }
+
+    /**
+     * Finds the module project among projects in the session
+     *
+     * @param project      to find module for
+     * @param moduleFolder name of the module to find
+     * @return Maven Project of the module
+     */
+    private MavenProject findModuleProject(MavenProject project, String moduleFolder) {
+
+        File projectDir = project.getFile().getParentFile();
+        String moduleDirName = new File(projectDir, moduleFolder).getAbsolutePath();
+
+        List<MavenProject> projects = session.getProjects();
+        MavenProject module = null;
+        for (MavenProject candidate : projects) {
+            if (candidate.getFile() != null) {
+                String candidateDir = candidate.getFile().getParentFile().getAbsolutePath();
+                if (candidateDir.equals(moduleDirName)) {
+                    module = candidate;
+                    break;
+                }
             }
         }
 
-        return result;
+        return module;
 
     }
 

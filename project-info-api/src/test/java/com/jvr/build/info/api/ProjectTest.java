@@ -16,10 +16,9 @@ public class ProjectTest {
         project.addDependency("compile", dependency);
 
         assertEquals("dependency is not added", 1, project.getDependencies().size());
-        Scope scope = project.getDependencies().get(0);
-        assertEquals("Scope is lost", "compile", scope.getScope());
-        assertEquals("Scope is lost", 1, scope.getDependencies().size());
-        assertEquals("dependency is changed", dependency, scope.getDependencies().get(0));
+        Dependency dependency1 = project.getDependencies().get(0);
+        assertEquals("Scope is lost", "compile", dependency1.getScope());
+        assertEquals("dependency is changed", dependency, dependency1.getDependency());
 
     }
 

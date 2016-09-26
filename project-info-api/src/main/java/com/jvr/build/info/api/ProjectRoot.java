@@ -9,7 +9,7 @@ import java.util.List;
 public class ProjectRoot extends Project {
 
     private Project parent = null;
-    private List<String> modules = null;
+    private List<Module> modules = null;
     private String name;
     private String description;
 
@@ -31,17 +31,17 @@ public class ProjectRoot extends Project {
         this.parent = parent;
     }
 
-    public List<String> getModules() {
+    public List<Module> getModules() {
         return modules;
     }
 
-    public void setModules(List<String> modules) {
+    public void setModules(List<Module> modules) {
         this.modules = modules;
     }
 
-    public void addModule(String module) {
+    public void addModule(Module module) {
         if (modules == null) {
-            modules = new ArrayList<String>();
+            modules = new ArrayList<Module>();
         }
         modules.add(module);
     }

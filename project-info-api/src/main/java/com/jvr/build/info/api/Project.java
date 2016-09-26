@@ -1,8 +1,6 @@
 package com.jvr.build.info.api;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,9 +13,7 @@ public class Project {
     private String version = null;
     private String type = null;
 
-    // exclude from JSON serialization
-    transient private HashMap<String, Scope> dependenciesMap = null;
-    private List<Scope> dependencies = null;
+    private List<Dependency> dependencies = null;
 
     public String getGroupId() {
         return groupId;
@@ -51,40 +47,19 @@ public class Project {
         this.type = type;
     }
 
-    /**
-     * Do not add elements to the returned list
-     *
-     * @return unmodifiable list of dependencies
-     */
-    public List<Scope> getDependencies() {
-        return Collections.unmodifiableList(dependencies);
+    public List<Dependency> getDependencies() {
+        return dependencies;
     }
 
-    public void setDependencies(List<Scope> dependencies) {
+    public void setDependencies(List<Dependency> dependencies) {
         this.dependencies = dependencies;
-        if (dependencies != null) {
-            dependenciesMap = new HashMap<String, Scope>(dependencies.size());
-            for (Scope scope : dependencies) {
-                dependenciesMap.put(scope.getScope(), scope);
-            }
-        }
     }
 
     public void addDependency(String scope, Project dependency) {
-
         if (dependencies == null) {
-            dependencies = new ArrayList<Scope>();
-            dependenciesMap = new HashMap<String, Scope>();
+            dependencies = new ArrayList<Dependency>();
         }
-
-        if (dependenciesMap.containsKey(scope)) {
-            dependenciesMap.get(scope).add(dependency);
-        } else {
-            Scope newScope = new Scope(scope);
-            newScope.add(dependency);
-            dependenciesMap.put(scope, newScope);
-            dependencies.add(newScope);
-        }
+        dependencies.add(new Dependency(scope, dependency));
     }
 
     @Override

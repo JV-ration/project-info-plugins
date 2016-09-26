@@ -28,13 +28,11 @@ public class ProjectJsonTest {
         assertEquals(projectArtifactId, project.getArtifactId());
         assertEquals(1, project.getDependencies().size());
 
-        Scope scope = project.getDependencies().get(0);
+        Dependency scope = project.getDependencies().get(0);
         assertEquals(testScope, scope.getScope());
-        assertEquals(1, scope.getDependencies().size());
 
-        Project dependency = scope.getDependencies().get(0);
+        Project dependency = scope.getDependency();
         assertEquals(dependencyArtifactId, dependency.getArtifactId());
-
     }
 
     private ProjectRoot createdTestProject() {
