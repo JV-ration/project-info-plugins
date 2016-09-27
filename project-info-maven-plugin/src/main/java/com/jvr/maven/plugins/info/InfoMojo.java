@@ -107,8 +107,6 @@ public class InfoMojo extends AbstractMojo {
                 System.out.print(dependencyTreeString);
             }
 
-        } catch (DependencyGraphBuilderException exception) {
-            throw new MojoExecutionException("Cannot build project dependency graph", exception);
         } catch (IOException exception) {
             throw new MojoExecutionException("Cannot serialise project dependency graph", exception);
         }
@@ -118,7 +116,7 @@ public class InfoMojo extends AbstractMojo {
      * Serializes the specified dependency tree to a string.
      * @return object with dependency tree
      */
-    private ProjectRoot serializeDependencyTree(MavenProject project, ArtifactFilter artifactFilter) throws DependencyGraphBuilderException {
+    private ProjectRoot serializeDependencyTree(MavenProject project, ArtifactFilter artifactFilter) throws MojoExecutionException {
 
         ProjectBuildingRequest buildingRequest =
                 new DefaultProjectBuildingRequest(session.getProjectBuildingRequest());
@@ -126,7 +124,12 @@ public class InfoMojo extends AbstractMojo {
         buildingRequest.setProject(project);
 
         // non-verbose mode use dependency graph component, which gives consistent results with Maven version running
-        DependencyNode rootNode = dependencyGraphBuilder.buildDependencyGraph(buildingRequest, artifactFilter);
+        DependencyNode rootNode;
+        try {
+            rootNode = dependencyGraphBuilder.buildDependencyGraph(buildingRequest, artifactFilter, session.getProjects());
+        } catch (DependencyGraphBuilderException exception) {
+            throw new MojoExecutionException("Cannot build project dependency graph", exception);
+        }
 
         ProjectInfoNodeVisitor visitor = new ProjectInfoNodeVisitor();
         rootNode.accept(new BuildingDependencyNodeVisitor(visitor));
