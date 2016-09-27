@@ -5,7 +5,7 @@
 
     <groupId>com.jv-ration.build.plugins</groupId>
     <artifactId>project-info-plugin</artifactId>
-    <version>0.0.7-SNAPSHOT</version>
+    <version>0.0.7</version>
     <packaging>pom</packaging>
 
     <name>Project Information Plugins</name>
@@ -15,7 +15,7 @@
         <url>https://github.com/JV-ration/project-info-plugins</url>
         <connection>scm:git:git://github.com/JV-ration/project-info-plugins.git</connection>
         <developerConnection>scm:git:git@github.com:JV-ration/project-info-plugins.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>project-info-plugin-0.0.7</tag>
   </scm>
 
     <issueManagement>
