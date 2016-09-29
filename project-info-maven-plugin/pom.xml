@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.jv-ration.build.plugins</groupId>
         <artifactId>project-info-plugin</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
+        <version>0.0.8</version>
     </parent>
 
     <groupId>com.jv-ration.maven.plugins</groupId>
     <artifactId>project-info-maven-plugin</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.0.8</version>
     <packaging>maven-plugin</packaging>
 
     <name>Project Information Maven Plugin</name>
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.jv-ration.build</groupId>
             <artifactId>project-info-api</artifactId>
-            <version>0.0.8-SNAPSHOT</version>
+            <version>0.0.8</version>
         </dependency>
 
         <!-- maven -->
