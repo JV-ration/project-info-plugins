@@ -145,11 +145,14 @@ public class InfoMojo extends AbstractMojo {
             }
 
             for (String moduleFolder : project.getModules()) {
-                MavenProject moduleProject = findModuleProject(project, moduleFolder);
-                if (moduleProject != null) {
-                    ProjectRoot module = serializeDependencyTree(moduleProject, artifactFilter);
-                    rootProject.addModule(new Module(moduleFolder, module));
+                MavenProject moduleProject = null;
+                try {
+                    moduleProject = findModuleProject(project, moduleFolder);
+                } catch (IOException e) {
+                    throw new MojoExecutionException(String.format("IO exception attempting to find %s module", moduleFolder), e);
                 }
+                ProjectRoot module = serializeDependencyTree(moduleProject, artifactFilter);
+                rootProject.addModule(new Module(moduleFolder, module));
             }
 
         }
@@ -165,21 +168,25 @@ public class InfoMojo extends AbstractMojo {
      * @param moduleFolder name of the module to find
      * @return Maven Project of the module
      */
-    private MavenProject findModuleProject(MavenProject project, String moduleFolder) {
+    private MavenProject findModuleProject(MavenProject project, String moduleFolder) throws IOException, MojoExecutionException {
 
         File projectDir = project.getFile().getParentFile();
-        String moduleDirName = new File(projectDir, moduleFolder).getAbsolutePath();
+        String moduleDirName = new File(projectDir, moduleFolder).getCanonicalPath();
 
         List<MavenProject> projects = session.getProjects();
         MavenProject module = null;
         for (MavenProject candidate : projects) {
             if (candidate.getFile() != null) {
-                String candidateDir = candidate.getFile().getParentFile().getAbsolutePath();
+                String candidateDir = candidate.getFile().getParentFile().getCanonicalPath();
                 if (candidateDir.equals(moduleDirName)) {
                     module = candidate;
                     break;
                 }
             }
+        }
+
+        if (module == null) {
+            throw new MojoExecutionException("No project found in " + moduleDirName);
         }
 
         return module;
