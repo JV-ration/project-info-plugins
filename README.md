@@ -11,7 +11,7 @@ Currently only Maven plugin is implemented. After building the plugins locally a
 local maven repository, execute command below on any maven project you have
  
 ```
-mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.6-SNAPSHOT:info -DoutputFile=info.json
+mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.9-SNAPSHOT:info -DoutputFile=info.json
 ```
 
 The generated JSON will contains project information and can be loaded using classes 
@@ -25,7 +25,7 @@ Invoking Maven to generate JSON file with Project description
 Properties buildProperties = new Properties();
 buildProperties.setProperty("outputFile", "info.json");
 
-List<String> goals = Collections.singletonList("com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.5:info");
+List<String> goals = Collections.singletonList("com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.8:info");
 
 InvocationRequest request = new DefaultInvocationRequest();
 request.setGoals(goals).setProperties(buildProperties).setInteractive(false);
@@ -48,6 +48,8 @@ ProjectRoot project = ProjectJson.fromJson(json);
 
 ## Releases
 
+[ ![Download](https://api.bintray.com/packages/jv-ration/maven/project-info-plugins/images/download.svg) ](https://bintray.com/jv-ration/maven/project-info-plugins/_latestVersion)
+
 Currently the project releases are deployed to [Bintray](https://bintray.com/jv-ration/maven/project-info-plugins). 
 Open this page an lookup the latest release
 
@@ -69,5 +71,5 @@ By adding the following to your `pom.xml` you can use Maven plugin without build
 Execute this from the command line
 
 ```
-mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.5:info -q
+mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.8:info -q
 ```
