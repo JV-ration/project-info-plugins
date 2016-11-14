@@ -8,7 +8,7 @@ Plugins for build tools like Maven and Gradle to generate unified information ab
 ## Using from command line
 
 Currently only Maven plugin is implemented. After building the plugins locally and installing them in 
-local maven repository, execute command below on any maven project you have
+local maven repository `./gradlew build install`, execute command below on any maven project you have
  
 ```
 mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.9-SNAPSHOT:info -DoutputFile=info.json
