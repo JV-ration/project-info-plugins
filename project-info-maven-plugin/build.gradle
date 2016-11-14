@@ -1,0 +1,13 @@
+group = 'com.jv-ration.maven.plugins'
+description = 'Project Information Maven Plugin'
+dependencies {
+  compile project(':project-info-api')
+    compile group: 'org.apache.maven', name: 'maven-artifact', version:'3.0'
+    compile group: 'org.apache.maven', name: 'maven-plugin-api', version:'3.0'
+    compile group: 'org.apache.maven', name: 'maven-core', version:'3.0'
+    compile group: 'org.apache.maven.shared', name: 'maven-dependency-tree', version:'3.0'
+    compile group: 'org.apache.maven.plugin-tools', name: 'maven-plugin-annotations', version:'3.4'
+    compile group: 'commons-io', name: 'commons-io', version:'2.5'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'org.apache.maven.shared', name: 'maven-invoker', version:'2.2'
+}

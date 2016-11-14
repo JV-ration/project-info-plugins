@@ -1,0 +1,20 @@
+allprojects  {
+  apply plugin: 'maven'
+
+  group = 'com.jv-ration.build.plugins'
+  version = '0.0.9-SNAPSHOT'
+}
+
+subprojects {
+  apply plugin: 'java'
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+  
+  repositories {
+    mavenLocal()
+    
+    maven { url "https://repo.maven.apache.org/maven2/" }
+    maven { url "http://dl.bintray.com/jv-ration/maven" }
+  }
+
+}
