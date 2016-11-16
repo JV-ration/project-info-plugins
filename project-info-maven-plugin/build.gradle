@@ -1,5 +1,6 @@
 group = 'com.jv-ration.maven.plugins'
 description = 'Project Information Maven Plugin'
+
 dependencies {
     compile project(':project-info-api')
 

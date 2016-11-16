@@ -1,13 +1,10 @@
-apply plugin: 'groovy'
 group = 'com.jv-ration.gradle.plugins'
-
 description = 'Project Information Gradle Plugin'
 
 dependencies {
     compile project(':project-info-api')
 
     compile gradleApi()
-    compile localGroovy()
 
     testCompile 'junit:junit:4.12'
 }
