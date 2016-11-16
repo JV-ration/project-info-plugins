@@ -1,0 +1,12 @@
+import com.jvr.gradle.plugins.info.ProjectInfoPlugin
+apply plugin: ProjectInfoPlugin
+
+initscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'com.jv-ration.gradle.plugins', name: 'project-info-gradle-plugin', version: '0.0.9-SNAPSHOT'
+    }
+}

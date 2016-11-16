@@ -6,10 +6,24 @@ import org.gradle.api.Project
 import static org.junit.Assert.*
 
 class ProjectInfoTaskTest {
+
     @Test
     public void canAddTaskToProject() {
         Project project = ProjectBuilder.builder().build()
         def task = project.task('info', type: ProjectInfoTask)
         assertTrue(task instanceof ProjectInfoTask)
     }
+
+    @Test
+    public void canExecuteOnEmptyProject() {
+
+        Project project = ProjectBuilder.builder().build()
+        def task = project.task('info', type: ProjectInfoTask)
+        assertTrue(task instanceof ProjectInfoTask)
+
+        ProjectInfoTask infoTask = task as ProjectInfoTask
+        infoTask.infoTask()
+
+    }
+
 }

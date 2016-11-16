@@ -1,3 +1,5 @@
+description = 'Set of build tools plugins to extract project information in an unified format'
+
 allprojects {
     apply plugin: 'maven'
 
