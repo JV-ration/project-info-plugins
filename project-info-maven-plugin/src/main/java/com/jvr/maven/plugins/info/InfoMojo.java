@@ -131,7 +131,7 @@ public class InfoMojo extends AbstractMojo {
             throw new MojoExecutionException("Cannot build project dependency graph", exception);
         }
 
-        ProjectInfoNodeVisitor visitor = new ProjectInfoNodeVisitor();
+        MavenNodeVisitor visitor = new MavenNodeVisitor();
         rootNode.accept(new BuildingDependencyNodeVisitor(visitor));
         ProjectRoot rootProject = visitor.getRoot();
 
@@ -140,12 +140,12 @@ public class InfoMojo extends AbstractMojo {
             rootProject.setName(project.getName());
             rootProject.setDescription(project.getDescription());
             if (project.getParent() != null) {
-                Project parent = ProjectInfoNodeVisitor.toProject(project.getParent().getArtifact());
+                Project parent = MavenNodeVisitor.toProject(project.getParent().getArtifact());
                 rootProject.setParent(parent);
             }
 
             for (String moduleFolder : project.getModules()) {
-                MavenProject moduleProject = null;
+                MavenProject moduleProject;
                 try {
                     moduleProject = findModuleProject(project, moduleFolder);
                 } catch (IOException e) {

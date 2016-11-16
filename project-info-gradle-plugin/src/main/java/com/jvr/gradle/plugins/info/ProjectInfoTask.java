@@ -1,28 +1,35 @@
 package com.jvr.gradle.plugins.info;
 
-import org.gradle.api.Action;
+import com.jvr.build.info.api.Module;
+import com.jvr.build.info.api.ProjectJson;
+import com.jvr.build.info.api.ProjectRoot;
+import org.apache.commons.io.FileUtils;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
+import org.gradle.api.GradleScriptException;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.result.ResolutionResult;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.api.tasks.diagnostics.internal.graph.DependencyGraphRenderer;
-import org.gradle.api.tasks.diagnostics.internal.graph.NodeRenderer;
-import org.gradle.api.tasks.diagnostics.internal.graph.SimpleNodeRenderer;
 import org.gradle.api.tasks.diagnostics.internal.graph.nodes.RenderableDependency;
 import org.gradle.api.tasks.diagnostics.internal.graph.nodes.RenderableModuleResult;
-import org.gradle.internal.graph.GraphRenderer;
 import org.gradle.logging.StyledTextOutput;
 import org.gradle.logging.internal.StreamingStyledTextOutput;
-import org.gradle.util.GUtil;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import java.util.Set;
 
 class ProjectInfoTask extends DefaultTask {
 
     private StyledTextOutput textOutput;
+
+    private String outputType = "json";
+    private boolean pretty = true;
+    private File outputFile = null;
 
     public ProjectInfoTask() {
         setDescription("Generate unified information about the projects. See https://github.com/JV-ration/project-info-plugins");
@@ -30,59 +37,68 @@ class ProjectInfoTask extends DefaultTask {
     }
 
     @TaskAction
-    public void  infoTask() {
+    public void infoTask() {
+
         Project project = getProject();
-        for( Project aProject : project.getAllprojects()) {
-            projectInfo( aProject );
+
+        try {
+            ProjectRoot dependencyTree = serializeDependencyTree(project);
+
+            String dependencyTreeString = "";
+            if ("json".equals(outputType)) {
+                dependencyTreeString = ProjectJson.toString(dependencyTree, pretty);
+            }
+
+            if (outputFile != null) {
+                FileUtils.writeStringToFile(outputFile, dependencyTreeString, "UTF-8");
+                getTextOutput().text("Wrote dependency tree to: " + outputFile);
+            } else {
+                System.out.print(dependencyTreeString);
+            }
+
+        } catch (IOException exception) {
+            throw new GradleScriptException("Cannot serialise project dependency graph", exception);
         }
+
     }
 
-    private void projectInfo(Project project) {
+    /**
+     * Serializes the specified dependency tree to a string.
+     * @return object with dependency tree
+     */
+    private ProjectRoot serializeDependencyTree(Project project) throws GradleException {
 
+        GradleNodeVisitor visitor = new GradleNodeVisitor();
         Set<Configuration> projectConfigurations = project.getConfigurations();
-
-        if( projectConfigurations.size() == 0) {
-            System.out.println(String.format("Project %s does not have configurations", project.getName()));
-        }
-
         for( Configuration configuration : projectConfigurations) {
-
-            System.out.println(String.format("Dependencies of %s (%s)", project.getName(), configuration.getName()));
-
-            DependencyGraphRenderer dependencyGraphRenderer = startConfiguration(configuration);
-
             ResolutionResult result = configuration.getIncoming().getResolutionResult();
             RenderableDependency root = new RenderableModuleResult(result.getRoot());
-            renderNow(root, dependencyGraphRenderer);
-
-            System.out.println();
+            visitor.visit(root, configuration.getName());
         }
 
-    }
+        ProjectRoot rootProject = visitor.getRoot();
 
-    private static void renderNow(RenderableDependency root, DependencyGraphRenderer dependencyGraphRenderer) {
-        if (root.getChildren().isEmpty()) {
-            return;
-        }
-        dependencyGraphRenderer.render(root);
-    }
+        if (rootProject != null) {
 
-    private DependencyGraphRenderer startConfiguration(final Configuration configuration) {
-
-        GraphRenderer renderer = new GraphRenderer(getTextOutput());
-        renderer.visit(new Action<StyledTextOutput>() {
-            public void execute(StyledTextOutput styledTextOutput) {
-                getTextOutput().text(configuration.getName());
-                getTextOutput().text(getDescription(configuration));
+            rootProject.setName(project.getName());
+            rootProject.setDescription(project.getDescription());
+            if (project.getParent() != null) {
+                // TODO: do gradle projects have parents?
+//                com.jvr.build.info.api.Project parent = GradleNodeVisitor.toProject(project.getParent().getArtifact());
+//                rootProject.setParent(parent);
             }
-        }, true);
 
-        NodeRenderer nodeRenderer = new SimpleNodeRenderer();
-        return new DependencyGraphRenderer(renderer, nodeRenderer);
-    }
+            Map<String, Project> children = project.getChildProjects();
+            for (String moduleFolder : children.keySet()) {
+                Project moduleProject = children.get(moduleFolder);
+                ProjectRoot module = serializeDependencyTree(moduleProject);
+                rootProject.addModule(new Module(moduleFolder, module));
+            }
 
-    private static String getDescription(Configuration configuration) {
-        return GUtil.isTrue(configuration.getDescription()) ? " - " + configuration.getDescription() : "";
+        }
+
+        return rootProject;
+
     }
 
     private StyledTextOutput getTextOutput() {

@@ -3,7 +3,6 @@ description = 'Project Information Gradle Plugin'
 
 dependencies {
     compile project(':project-info-api')
-
     compile gradleApi()
 
     testCompile 'junit:junit:4.12'

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * A dependency node visitor that serializes visited nodes to JSON format
  */
-class ProjectInfoNodeVisitor implements DependencyNodeVisitor {
+class MavenNodeVisitor implements DependencyNodeVisitor {
 
     private ProjectRoot root = null;
     private HashMap<String, Project> projects = new HashMap<String, Project>();
