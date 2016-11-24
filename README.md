@@ -54,12 +54,6 @@ Invoker invoker = new DefaultInvoker();
 invoker.execute(request);
 ```
 
-Invoking Gradle to generate JSON file with Project description
-
-```
-// not available yet
-```
-
 Using project information in your code. This code is the same for Maven and Gradle projects
 ```
 String json = FileUtils.readFileToString(new File("info.json"));
