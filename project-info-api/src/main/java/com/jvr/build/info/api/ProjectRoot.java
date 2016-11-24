@@ -41,7 +41,7 @@ public class ProjectRoot extends Project {
 
     public void addModule(Module module) {
         if (modules == null) {
-            modules = new ArrayList<Module>();
+            modules = new ArrayList<>();
         }
         modules.add(module);
     }

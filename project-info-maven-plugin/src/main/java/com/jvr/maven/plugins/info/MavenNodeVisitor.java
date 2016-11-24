@@ -15,7 +15,7 @@ import java.util.List;
 class MavenNodeVisitor implements DependencyNodeVisitor {
 
     private ProjectRoot root = null;
-    private HashMap<String, Project> projects = new HashMap<String, Project>();
+    private HashMap<String, Project> projects = new HashMap<>();
 
     /**
      * {@inheritDoc}

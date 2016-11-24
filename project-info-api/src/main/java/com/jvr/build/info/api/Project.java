@@ -58,7 +58,7 @@ public class Project implements Serializable {
 
     public void addDependency(String scope, Project dependency) {
         if (dependencies == null) {
-            dependencies = new ArrayList<Dependency>();
+            dependencies = new ArrayList<>();
         }
         dependencies.add(new Dependency(scope, dependency));
     }

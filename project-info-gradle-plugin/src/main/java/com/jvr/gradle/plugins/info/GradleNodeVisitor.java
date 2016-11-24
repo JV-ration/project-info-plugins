@@ -13,7 +13,7 @@ import java.util.Set;
 class GradleNodeVisitor {
 
     private ProjectRoot root = null;
-    private HashMap<Object, Project> projects = new HashMap<Object, Project>();
+    private HashMap<Object, Project> projects = new HashMap<>();
 
     /**
      * This method is expected to be called for every Gradle configuration.
