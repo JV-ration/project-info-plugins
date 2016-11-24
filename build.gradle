@@ -1,30 +1,41 @@
 description = 'Set of build tools plugins to extract project information in an unified format'
 
 allprojects {
+
     apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     group = 'com.jv-ration.build.plugins'
     version = '0.0.9-SNAPSHOT'
 
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                repository(url: uri('../repo'))
-            }
-        }
-    }
 }
 
 subprojects {
 
     apply plugin: 'java'
+
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
 
     repositories {
         mavenLocal()
-        maven { url "https://repo.maven.apache.org/maven2/" }
+        mavenCentral()
+        maven { url "http://repo.gradle.org/gradle/libs-releases-local" }
         maven { url "http://dl.bintray.com/jv-ration/maven" }
     }
 
+    publishing {
+        repositories {
+            maven {
+                url "$rootProject.projectDir/repo"
+            }
+        }
+        publications {
+            maven(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
 }
+

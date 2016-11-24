@@ -1,0 +1,22 @@
+group 'com.jv-ration.build.plugins'
+version '0.0.9-SNAPSHOT'
+
+compileJava.dependsOn ':project-info-api:publish'
+compileJava.dependsOn ':project-info-gradle-model:publish'
+compileJava.dependsOn ':project-info-gradle-plugin:publish'
+
+repositories {
+    maven {
+        url 'https://repo.gradle.org/gradle/libs-releases-local'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':project-info-gradle-model')
+    compile "org.gradle:gradle-tooling-api:${gradle.gradleVersion}"
+
+    testCompile 'junit:junit:4.12'
+
+    runtime 'org.slf4j:slf4j-simple:1.7.5'
+}

@@ -1,12 +1,13 @@
 package com.jvr.build.info.api;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Either root or dependency or module (sub-project)
  */
-public class Project {
+public class Project implements Serializable {
 
     private String groupId = null;
     private String artifactId = null;
@@ -65,21 +66,20 @@ public class Project {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Project)) return false;
 
         Project project = (Project) o;
 
-        if (!groupId.equals(project.groupId)) return false;
-        if (!artifactId.equals(project.artifactId)) return false;
+        if (groupId != null ? !groupId.equals(project.groupId) : project.groupId != null) return false;
+        if (artifactId != null ? !artifactId.equals(project.artifactId) : project.artifactId != null) return false;
         if (version != null ? !version.equals(project.version) : project.version != null) return false;
         return type != null ? type.equals(project.type) : project.type == null;
-
     }
 
     @Override
     public int hashCode() {
-        int result = groupId.hashCode();
-        result = 31 * result + artifactId.hashCode();
+        int result = groupId != null ? groupId.hashCode() : 0;
+        result = 31 * result + (artifactId != null ? artifactId.hashCode() : 0);
         result = 31 * result + (version != null ? version.hashCode() : 0);
         return result;
     }

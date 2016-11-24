@@ -1,0 +1,10 @@
+group = 'com.jv-ration.gradle.plugins'
+description = 'Project Information Gradle Model'
+
+dependencies {
+    compile project(':project-info-api')
+    compile "org.gradle:gradle-tooling-api:${gradle.gradleVersion}"
+    // Need an SLF4J implementation at runtime
+    runtime 'org.slf4j:slf4j-simple:1.7.10'
+    testCompile 'junit:junit:4.12'
+}

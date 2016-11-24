@@ -1,0 +1,19 @@
+initscript {
+    repositories {
+        maven {
+            url new File('../repo').toURI().toURL()
+        }
+        maven {
+            url 'https://repo.gradle.org/gradle/libs-releases-local'
+        }
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.jv-ration.gradle.plugins:project-info-gradle-plugin:0.0.9-SNAPSHOT'
+    }
+}
+
+allprojects {
+    apply plugin: com.jvr.gradle.plugins.info.ProjectInfoModelPlugin
+}

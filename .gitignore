@@ -1,5 +1,7 @@
 build/
 target/
+repo/
 
 .idea
+.gradle
 .DS_Store

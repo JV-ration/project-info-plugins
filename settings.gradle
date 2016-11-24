@@ -1,8 +1,9 @@
 rootProject.name = 'project-info-plugin'
+
 include ':project-info-api'
 include ':project-info-maven-plugin'
 include ':project-info-gradle-plugin'
+include ':project-info-gradle-model'
+include ':project-info-gradle-test'
 
-project(':project-info-api').projectDir = "$rootDir/project-info-api" as File
-project(':project-info-maven-plugin').projectDir = "$rootDir/project-info-maven-plugin" as File
-project(':project-info-gradle-plugin').projectDir = "$rootDir/project-info-gradle-plugin" as File
+

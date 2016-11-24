@@ -1,9 +1,11 @@
 package com.jvr.build.info.api;
 
+import java.io.Serializable;
+
 /**
  * Expresses dependency on another project
  */
-public class Module {
+public class Module implements Serializable {
 
     private String name = null;
     private ProjectRoot module = null;

@@ -7,8 +7,10 @@ Plugins for build tools like Maven and Gradle to generate unified information ab
 
 ## Using from command line
 
-Currently only Maven plugin is implemented. After building the plugins locally and installing them in 
-local maven repository `./gradlew build install`, execute command below on any maven project you have
+### Maven
+
+After building the plugins locally and installing them in local maven repository `./gradlew build install`, execute command 
+below on any maven project you have
  
 ```
 mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.9-SNAPSHOT:info -DoutputFile=info.json
@@ -17,7 +19,25 @@ mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.9-SNAPSHOT:info -D
 The generated JSON will contains project information and can be loaded using classes 
 from `project-info-api` module
 
+### Gradle
+
+Example of using Gradle plugin from CLI is `project-info-gradle-test/src/test/resources/project-info-task.gradle` file.
+After building the project with `./gradlew build` change to `project-info-gradle-test/src/test/resources/multi` directory and
+execute
+
+```
+gradle --init-script=../project-info-task.gradle project-info
+```
+
+To apply the plugin to your project
+* build and install this project in local Maven repo by `./gradlew build install`
+* copy `project-info-task.gradle` to a convenient location;
+* modify it to remove files based Maven repository;
+* invoke Gradle on your project providing modified initialization script 
+
 ## Using from code
+
+### Maven
 
 Invoking Maven to generate JSON file with Project description
 
@@ -45,6 +65,17 @@ Using project information in your code. This code is the same for Maven and Grad
 String json = FileUtils.readFileToString(new File("info.json"));
 ProjectRoot project = ProjectJson.fromJson(json);
 ```
+
+### Gradle
+
+Example of using Gradle plugin from the code is in `project-info-gradle-test/src/test/java/com/jvr/gradle/invoker/GradleProjectInfoRetrieverTest.java` test class.
+It uses `project-info-gradle-test/src/test/resources/custom-model-plugin.gradle` init script to register new Project Info model and then builds it.
+
+In order to move this example to your code
+* build and install this project in local Maven repo by `./gradlew build install`
+* copy `custom-model-plugin.gradle` to a convenient location;
+* modify it to remove files based Maven repository;
+* modify the test class to match new location of init script and locations of the projects to analyze 
 
 ## Releases
 
