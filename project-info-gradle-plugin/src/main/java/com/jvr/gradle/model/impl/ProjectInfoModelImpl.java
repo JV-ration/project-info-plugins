@@ -1,7 +1,8 @@
-package com.jvr.gradle.model;
+package com.jvr.gradle.model.impl;
 
 import com.jvr.build.info.api.ProjectJson;
 import com.jvr.build.info.api.ProjectRoot;
+import com.jvr.gradle.model.ProjectInfoModel;
 
 public class ProjectInfoModelImpl implements ProjectInfoModel {
 

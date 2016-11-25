@@ -3,7 +3,7 @@ package com.jvr.gradle.plugins.info;
 import com.jvr.build.info.api.Module;
 import com.jvr.build.info.api.ProjectRoot;
 import com.jvr.gradle.model.ProjectInfoModel;
-import com.jvr.gradle.model.ProjectInfoModelImpl;
+import com.jvr.gradle.model.impl.ProjectInfoModelImpl;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -52,23 +52,19 @@ public class ProjectInfoModelBuilder implements ToolingModelBuilder {
             rootProject = new ProjectRoot();
         }
 
-        if (rootProject != null) {
-
-            rootProject.setName(project.getName());
-            rootProject.setDescription(project.getDescription());
-            if (project.getParent() != null) {
-                // TODO: do gradle projects have parents?
+        rootProject.setName(project.getName());
+        rootProject.setDescription(project.getDescription());
+        if (project.getParent() != null) {
+            // TODO: do gradle projects have parents?
 //                com.jvr.build.info.api.Project parent = GradleNodeVisitor.toProject(project.getParent().getArtifact());
 //                rootProject.setParent(parent);
-            }
+        }
 
-            Map<String, Project> children = project.getChildProjects();
-            for (String moduleFolder : children.keySet()) {
-                Project moduleProject = children.get(moduleFolder);
-                ProjectRoot module = getProjectRoot(moduleProject);
-                rootProject.addModule(new Module(moduleFolder, module));
-            }
-
+        Map<String, Project> children = project.getChildProjects();
+        for (String moduleFolder : children.keySet()) {
+            Project moduleProject = children.get(moduleFolder);
+            ProjectRoot module = getProjectRoot(moduleProject);
+            rootProject.addModule(new Module(moduleFolder, module));
         }
 
         return rootProject;

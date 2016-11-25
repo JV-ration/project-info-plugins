@@ -63,13 +63,11 @@ ProjectRoot project = ProjectJson.fromJson(json);
 ### Gradle
 
 Example of using Gradle plugin from the code is in `project-info-gradle-test/src/test/java/com/jvr/gradle/invoker/GradleProjectInfoRetrieverTest.java` test class.
-It uses `project-info-gradle-test/src/test/resources/custom-model-plugin.gradle` init script to register new Project Info model and then builds it.
+`GradleProjectInfoRetriever` uses bundled init script to register new Project Info model and then builds it.
 
 In order to move this example to your code
 * build and install this project in local Maven repo by `./gradlew build install`
-* copy `custom-model-plugin.gradle` to a convenient location;
-* modify it to remove files based Maven repository;
-* modify the test class to match new location of init script and locations of the projects to analyze 
+* modify the test class to stop providing additional maven repository and to match locations of the projects to analyze 
 
 ## Releases
 
