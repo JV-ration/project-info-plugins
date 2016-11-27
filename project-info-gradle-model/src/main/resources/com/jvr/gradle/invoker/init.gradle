@@ -12,5 +12,5 @@ initscript {
 }
 
 allprojects {
-    apply plugin: com.jvr.gradle.plugins.info.ProjectInfoModelPlugin
+    apply plugin: com.jvr.gradle.plugins.info.ProjectInfoPlugin
 }

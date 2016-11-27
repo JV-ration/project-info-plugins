@@ -14,4 +14,6 @@ initscript {
     }
 }
 
-apply plugin: com.jvr.gradle.plugins.info.ProjectInfoPlugin
+allprojects {
+    apply plugin: com.jvr.gradle.plugins.info.ProjectInfoPlugin
+}
