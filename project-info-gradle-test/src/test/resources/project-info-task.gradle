@@ -6,11 +6,12 @@ initscript {
         maven {
             url 'https://repo.gradle.org/gradle/libs-releases-local'
         }
+        mavenLocal()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.jv-ration.gradle.plugins:project-info-gradle-plugin:0.0.9-SNAPSHOT'
+        classpath 'com.jv-ration.gradle.plugins:project-info-gradle-plugin:@project.version@'
     }
 }
 

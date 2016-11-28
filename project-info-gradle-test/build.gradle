@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 group 'com.jv-ration.build.plugins'
 version '0.0.9-SNAPSHOT'
 
@@ -19,4 +21,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     runtime 'org.slf4j:slf4j-simple:1.7.5'
+}
+
+processTestResources {
+    filter ReplaceTokens, tokens: [
+            "project.version": project.version
+    ]
 }
