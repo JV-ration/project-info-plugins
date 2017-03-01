@@ -14,7 +14,7 @@ If you'd like to use snapshot versions of the plugins, install them in your loca
 Execute command below on any maven project you have
  
 ```
-mvn com.jv-ration.maven.plugins:project-info-maven-plugin:<PLUGIN_VERSION>:info -DoutputFile=info.json
+mvn com.jv-ration.maven.plugins:project-info-maven-plugin:<PLUGIN_VERSION>:project-info -DoutputFile=info.json
 ```
 
 The generated JSON will contains project information and can be loaded using classes from `project-info-api` module
@@ -60,7 +60,7 @@ Invoking Maven to generate JSON file with Project description
 Properties buildProperties = new Properties();
 buildProperties.setProperty("outputFile", "info.json");
 
-List<String> goals = Collections.singletonList("com.jv-ration.maven.plugins:project-info-maven-plugin:<PLUGIN_VERSION>:info");
+List<String> goals = Collections.singletonList("com.jv-ration.maven.plugins:project-info-maven-plugin:<PLUGIN_VERSION>:project-info");
 
 InvocationRequest request = new DefaultInvocationRequest();
 request.setBaseDirectory(new File("/projects/maven-sample").setGoals(goals).setProperties(buildProperties).setInteractive(false);
@@ -88,10 +88,8 @@ ProjectRoot projectRoot = retriever.retrieveProjectInfo(new File("/projects/grad
 
 ## Releases
 
-[ ![Download](https://api.bintray.com/packages/jv-ration/maven/project-info-plugins/images/download.svg) ](https://bintray.com/jv-ration/maven/project-info-plugins/_latestVersion)
-
 Currently the project releases are deployed to [Bintray](https://bintray.com/jv-ration/maven/project-info-plugins). 
-Open this page an lookup the latest release
+The latest release is [ ![Download](https://api.bintray.com/packages/jv-ration/maven/project-info-plugins/images/download.svg) ](https://bintray.com/jv-ration/maven/project-info-plugins/_latestVersion)
 
 By adding the following to your `pom.xml` you can use Maven plugin without building it locally
 
@@ -111,5 +109,5 @@ By adding the following to your `pom.xml` you can use Maven plugin without build
 Execute this from the command line
 
 ```
-mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.8:info -q
+mvn com.jv-ration.maven.plugins:project-info-maven-plugin:0.0.8:project-info -q
 ```

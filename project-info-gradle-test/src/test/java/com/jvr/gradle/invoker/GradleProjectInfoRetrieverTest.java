@@ -22,6 +22,7 @@ public class GradleProjectInfoRetrieverTest {
     @Test
     public void testMultiProject() {
         GradleProjectInfoRetriever retriever = new GradleProjectInfoRetriever();
+        retriever.setDebugMode(true);
         ProjectRoot projectRoot = retriever.retrieveProjectInfo(new File("src/test/resources/multi"), LOCAL_REPO_PATH);
         assertNotNull("project is not retrieved", projectRoot);
         assertEquals("Count of multi project modules", 3, projectRoot.getModules().size());

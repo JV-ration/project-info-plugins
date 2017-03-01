@@ -1,13 +1,12 @@
 description = 'Set of build tools plugins to extract project information in an unified format'
 
 allprojects {
-
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
+    apply plugin: 'project-report'
 
     group = 'com.jv-ration.build.plugins'
     version = '0.0.9-SNAPSHOT'
-
 }
 
 subprojects {

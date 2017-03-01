@@ -25,21 +25,19 @@ public class ProjectInfoModelBuilder implements ToolingModelBuilder {
 
     @Override
     public Object buildAll(String modelName, Project project) {
-        ProjectRoot projectRoot;
         try {
-            projectRoot = getProjectRoot(project);
+            ProjectRoot projectRoot = getProjectRoot(project);
+            return new ProjectInfoModelImpl(projectRoot);
         } catch (Exception e) {
             String msg = String.format("Failed to convert %s project to ProjectRoot", project.getName());
             throw new GradleException(msg);
         }
-        System.out.println("Conversion result is " + String.valueOf(projectRoot));
-        return new ProjectInfoModelImpl(projectRoot);
     }
 
-    ProjectRoot getProjectRoot(Project project) {
+    ProjectRoot getProjectRoot(Project gradleProject) {
 
         GradleNodeVisitor visitor = new GradleNodeVisitor();
-        Set<Configuration> projectConfigurations = project.getConfigurations();
+        Set<Configuration> projectConfigurations = gradleProject.getConfigurations();
 
         for( Configuration configuration : projectConfigurations) {
             ResolutionResult result = configuration.getIncoming().getResolutionResult();
@@ -52,15 +50,15 @@ public class ProjectInfoModelBuilder implements ToolingModelBuilder {
             rootProject = new ProjectRoot();
         }
 
-        rootProject.setName(project.getName());
-        rootProject.setDescription(project.getDescription());
-        if (project.getParent() != null) {
+        rootProject.setName(gradleProject.getName());
+        rootProject.setDescription(gradleProject.getDescription());
+        if (gradleProject.getParent() != null) {
             // TODO: do gradle projects have parents?
 //                com.jvr.build.info.api.Project parent = GradleNodeVisitor.toProject(project.getParent().getArtifact());
 //                rootProject.setParent(parent);
         }
 
-        Map<String, Project> children = project.getChildProjects();
+        Map<String, Project> children = gradleProject.getChildProjects();
         for (String moduleFolder : children.keySet()) {
             Project moduleProject = children.get(moduleFolder);
             ProjectRoot module = getProjectRoot(moduleProject);

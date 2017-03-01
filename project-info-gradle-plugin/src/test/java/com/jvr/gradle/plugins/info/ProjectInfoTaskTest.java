@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.gradle.api.Project;
 
-import static com.jvr.gradle.plugins.info.ProjectInfoPlugin.TASK_NAME;
+import static com.jvr.build.info.api.Constants.TASK_NAME;
 import static org.junit.Assert.*;
 
 public class ProjectInfoTaskTest {

@@ -28,7 +28,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 
-@Mojo(name = "info", aggregator = true, requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
+import static com.jvr.build.info.api.Constants.TASK_NAME;
+
+@Mojo(name = TASK_NAME, aggregator = true, requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class InfoMojo extends AbstractMojo {
     /**
      * The Maven project.

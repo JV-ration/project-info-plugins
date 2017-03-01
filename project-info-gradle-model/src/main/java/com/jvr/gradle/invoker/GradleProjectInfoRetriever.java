@@ -20,6 +20,8 @@ public class GradleProjectInfoRetriever {
     private static final String LOC_REPO_BEGIN = "maven { url new File('";
     private static final String LOC_REPO_END = "').toURI().toURL() }";
 
+    private boolean debugMode = false;
+
     /**
      * Shortcut for {@link #retrieveProjectInfo(File projectDir, String initScriptPath)}, where initScriptPath is null
      *
@@ -52,9 +54,15 @@ public class GradleProjectInfoRetriever {
 
         try {
             connection = connector.connect();
+
             ModelBuilder<ProjectInfoModel> customModelBuilder = connection.model(ProjectInfoModel.class);
             customModelBuilder.withArguments("--init-script", initScript.getAbsolutePath());
+            if (debugMode) {
+                customModelBuilder.withArguments("-Dorg.gradle.debug=true");
+            }
+
             ProjectInfoModel model = customModelBuilder.get();
+
             if (model == null) {
                 throw new GradleException("Failed to retrieve ProjectInfoModel from " + projectDir.getAbsolutePath());
             }
@@ -86,4 +94,16 @@ public class GradleProjectInfoRetriever {
         return initFile;
     }
 
+    /**
+     * If true, extraction of the model will hang until a project connect to port 5005 on localhost
+     *
+     * @return is debugging with suspended JVM enabled
+     */
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
 }

@@ -6,9 +6,9 @@ import org.gradle.tooling.provider.model.ToolingModelBuilderRegistry;
 
 import javax.inject.Inject;
 
-public class ProjectInfoPlugin implements Plugin<Project> {
+import static com.jvr.build.info.api.Constants.TASK_NAME;
 
-    static final String TASK_NAME = "project-info";
+public class ProjectInfoPlugin implements Plugin<Project> {
 
     private final ToolingModelBuilderRegistry registry;
 
