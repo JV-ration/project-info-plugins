@@ -4,7 +4,6 @@ import com.jvr.build.info.api.ProjectJson;
 import com.jvr.build.info.api.ProjectRoot;
 import com.jvr.gradle.model.ProjectInfoModel;
 import com.jvr.util.ResourceLoaderUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import org.gradle.api.GradleException;
 import org.gradle.tooling.GradleConnector;
 import org.gradle.tooling.ProjectConnection;
@@ -12,15 +11,12 @@ import org.gradle.tooling.ModelBuilder;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class GradleProjectInfoRetriever {
 
     private static final String REPLACE_TOKEN = " repositories {";
     private static final String LOC_REPO_BEGIN = "maven { url new File('";
     private static final String LOC_REPO_END = "').toURI().toURL() }";
-
-    private boolean debugMode = false;
 
     /**
      * Shortcut for {@link #retrieveProjectInfo(File projectDir, String initScriptPath)}, where initScriptPath is null
@@ -57,18 +53,17 @@ public class GradleProjectInfoRetriever {
 
             ModelBuilder<ProjectInfoModel> customModelBuilder = connection.model(ProjectInfoModel.class);
             customModelBuilder.withArguments("--init-script", initScript.getAbsolutePath());
-            if (debugMode) {
-                customModelBuilder.withArguments("-Dorg.gradle.debug=true");
-            }
 
             ProjectInfoModel model = customModelBuilder.get();
-
             if (model == null) {
                 throw new GradleException("Failed to retrieve ProjectInfoModel from " + projectDir.getAbsolutePath());
             }
 
             String json = model.getRootProjectJson();
-            initScript.delete();
+
+            if (!initScript.delete()) {
+                throw new GradleException("Failed to delete " + initScript.getAbsolutePath());
+            }
 
             return ProjectJson.fromJson(json);
 
@@ -94,16 +89,4 @@ public class GradleProjectInfoRetriever {
         return initFile;
     }
 
-    /**
-     * If true, extraction of the model will hang until a project connect to port 5005 on localhost
-     *
-     * @return is debugging with suspended JVM enabled
-     */
-    public boolean isDebugMode() {
-        return debugMode;
-    }
-
-    public void setDebugMode(boolean debugMode) {
-        this.debugMode = debugMode;
-    }
 }

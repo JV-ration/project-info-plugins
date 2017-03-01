@@ -1,6 +1,5 @@
 package com.jvr.gradle.model;
 
-import com.jvr.build.info.api.ProjectRoot;
 import org.gradle.tooling.model.Model;
 
 import java.io.Serializable;
