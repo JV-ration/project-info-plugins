@@ -19,7 +19,6 @@ public class ProjectInfoModelBuilder implements ToolingModelBuilder {
 
     @Override
     public boolean canBuild(String modelName) {
-        System.out.println("Can I build " + modelName);
         return modelName.equals(ProjectInfoModel.class.getName());
     }
 
@@ -30,7 +29,7 @@ public class ProjectInfoModelBuilder implements ToolingModelBuilder {
             return new ProjectInfoModelImpl(projectRoot);
         } catch (Exception e) {
             String msg = String.format("Failed to convert %s project to ProjectRoot", project.getName());
-            throw new GradleException(msg);
+            throw new GradleException(msg, e);
         }
     }
 
@@ -40,9 +39,11 @@ public class ProjectInfoModelBuilder implements ToolingModelBuilder {
         Set<Configuration> projectConfigurations = gradleProject.getConfigurations();
 
         for( Configuration configuration : projectConfigurations) {
-            ResolutionResult result = configuration.getIncoming().getResolutionResult();
-            RenderableDependency root = new RenderableModuleResult(result.getRoot());
-            visitor.visit(root, configuration.getName());
+            if (configuration.isCanBeResolved()) {
+                ResolutionResult result = configuration.getIncoming().getResolutionResult();
+                RenderableDependency root = new RenderableModuleResult(result.getRoot());
+                visitor.visit(root, configuration.getName());
+            }
         }
 
         ProjectRoot rootProject = visitor.getRoot();
