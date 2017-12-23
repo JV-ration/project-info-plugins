@@ -1,7 +1,9 @@
+package gradle
+
 initscript {
     repositories {
         maven {
-            url new File('../../../../../repo').toURI().toURL()
+            url new File('../../../../../../repo').toURI().toURL()
         }
         maven {
             url 'https://repo.gradle.org/gradle/libs-releases-local'

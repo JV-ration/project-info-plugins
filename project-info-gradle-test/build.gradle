@@ -6,6 +6,7 @@ version '0.0.9-SNAPSHOT'
 compileJava.dependsOn ':project-info-api:publish'
 compileJava.dependsOn ':project-info-gradle-model:publish'
 compileJava.dependsOn ':project-info-gradle-plugin:publish'
+compileJava.dependsOn ':project-info-maven-plugin:publishMavenPublicationToMavenLocal'
 
 repositories {
     maven {
@@ -19,6 +20,8 @@ dependencies {
     compile "org.gradle:gradle-tooling-api:${gradle.gradleVersion}"
 
     testCompile 'junit:junit:4.12'
+    // TODO: move it to 1.6
+    testCompile 'org.apache.maven.shared:maven-verifier:1.5'
 
     runtime 'org.slf4j:slf4j-simple:1.7.5'
 }
